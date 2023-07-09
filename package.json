@@ -1,0 +1,34 @@
+{
+  "name": "invoiceapp",
+  "version": "1.0.0",
+  "description": "An app that gets invoices in different platforms (HEB, Costco, Walmart/Sams) using puppeteer and javascript.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mike5801/InvoiceApp.git"
+  },
+  "author": "Miguel Tang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mike5801/InvoiceApp/issues"
+  },
+  "homepage": "https://github.com/Mike5801/InvoiceApp#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "mongoose": "^7.3.2",
+    "morgan": "^1.10.0",
+    "puppeteer": "^20.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
