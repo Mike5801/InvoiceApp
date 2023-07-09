@@ -1,8 +1,10 @@
 import express from "express";
-import { getCostcoInvoice } from "../controllers/invoice.controllers.js";
+import { getCostcoInvoice, getWalmartInvoice } from "../controllers/invoice.controllers.js";
 
 const router = express.Router();
 
-router.get("/costco", getCostcoInvoice);
+router.post("/costco", getCostcoInvoice);
+
+router.post("/walmart", getWalmartInvoice);
 
 export default router;
