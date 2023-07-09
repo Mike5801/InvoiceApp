@@ -1,8 +1,8 @@
-import express from "express"
-import { getCostcoInvoice } from "../controllers/invoice.controllers.js"
+import express from "express";
+import { getCostcoInvoice } from "../controllers/invoice.controllers.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.get("/costco", getCostcoInvoice)
+router.get("/costco", getCostcoInvoice);
 
-export default router
+export default router;
