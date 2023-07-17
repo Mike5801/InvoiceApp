@@ -93,15 +93,22 @@ export const getHebInvoice = async (req, res) => {
 
   const today = new Date();
   const todayTime = today.getTime();
-  const dateTime = date.getTime();
+
+  const dateFormat = new Date(date);
+  const dateTime = dateFormat.getTime();
   const diffDates = Math.abs(todayTime - dateTime);
   const numDays = Math.floor(diffDates / (1000 * 60 * 60 * 24));
 
   try {
+
+    /* Enter to HEB Invoice Page */
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.goto("https://facturacion.heb.com.mx/cli/invoice-create");
-
+    
+    await page.waitForNavigation();
+    await page.waitForTimeout(3000);
+    
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
 
@@ -109,6 +116,7 @@ export const getHebInvoice = async (req, res) => {
     await inputBranchOffice.type(branchOffice);
     await page.keyboard.press("Enter");
 
+    /* Enter initial information of invoice (ticket, date, branch office and total sale) */
     const inputTicket = await page.$("#mat-input-1");
     await inputTicket.type(ticket);
 
@@ -124,18 +132,21 @@ export const getHebInvoice = async (req, res) => {
 
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(5000);
 
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
-
+    
     await page.waitForNavigation();
+    await page.waitForTimeout(5000);
 
+    /* Enter client information (RFC, email and invoice use) */
     const inputRfc = await page.$("#mat-input-6");
     await inputRfc.type(process.env.RFC);
-    await page.waitForTimeout(3000);
+    await page.keyboard.press("Tab");
+    await page.waitForTimeout(5000);
 
     const inputEmail = await page.$("#mat-input-7");
     await inputEmail.type(process.env.EMAIL);
@@ -145,12 +156,13 @@ export const getHebInvoice = async (req, res) => {
     await page.keyboard.press("ArrowDown");
     await page.keyboard.press("Enter");
 
+    /* Send invoice to email */
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
-
     await page.waitForNavigation();
+    await page.waitForTimeout(5000);
 
     await browser.close();
 
