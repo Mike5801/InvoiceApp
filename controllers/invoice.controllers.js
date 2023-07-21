@@ -4,7 +4,7 @@ export const getCostcoInvoice = async (req, res) => {
   const { ticket, monto } = req.body;
 
   try {
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.goto("https://www3.costco.com.mx/facturacion");
 
@@ -23,7 +23,7 @@ export const getCostcoInvoice = async (req, res) => {
     await page.waitForTimeout(2000);
 
     const buttonEnviar2 = await page.$("#btnEnviar");
-    await buttonEnviar2.evaluate((b) => { 
+    await buttonEnviar2.evaluate((b) => {
       b.click();
     });
 
@@ -41,10 +41,22 @@ export const getWalmartInvoice = async (req, res) => {
   const { transaction, ticket } = req.body;
 
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    /* Go to Walmart invoice page */
+    const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
+    await page.goto("https://facturacion.walmartmexico.com.mx/Default.aspx");
+
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Enter");
+
     await page.goto("https://facturacion.walmartmexico.com.mx/frmDatos.aspx");
 
+    await page.waitForTimeout(3000);
+
+    /* Enter initial invoice data */
     const inputRfc = await page.$("#ctl00_ContentPlaceHolder1_txtMemRFC");
     const inputCP = await page.$("#ctl00_ContentPlaceHolder1_txtCP");
     const inputTicket = await page.$("#ctl00_ContentPlaceHolder1_txtTC");
@@ -61,6 +73,7 @@ export const getWalmartInvoice = async (req, res) => {
 
     await page.waitForNavigation();
 
+    /* Enter specific invoice data (Régimen Fiscal and use of invoice) */
     await page.select("#ctl00_ContentPlaceHolder1_ddlregimenFiscal", "621");
     await page.waitForTimeout(1000);
     await page.select("#ctl00_ContentPlaceHolder1_ddlusoCFDI", "G03");
@@ -68,20 +81,28 @@ export const getWalmartInvoice = async (req, res) => {
 
     const buttonAccept = await page.$("#ctl00_ContentPlaceHolder1_btnAceptar");
     await buttonAccept.click();
+
+    await page.waitForTimeout(1000);
+
     const buttonConfirm = await page.$("#ctl00_btnContinuar");
     await buttonConfirm.click();
 
     await page.waitForNavigation();
 
+    /* Select way of receiving invoice */
     const buttonEmail = await page.$("#ctl00_ContentPlaceHolder1_rdCorreo");
     await buttonEmail.click();
 
+    /* Send invoice */
     const buttonInvoice = await page.$(
       "#ctl00_ContentPlaceHolder1_btnFacturar"
     );
     await buttonInvoice.click();
 
-    await page.waitForNavigation();
+    const buttonClose = await page.$("#ctl00_ContentPlaceHolder1_btnCerrar");
+    await buttonClose.click();
+    
+    await page.waitForTimeout(5000);
 
     await browser.close();
 
@@ -104,15 +125,14 @@ export const getHebInvoice = async (req, res) => {
   const numDays = Math.floor(diffDates / (1000 * 60 * 60 * 24));
 
   try {
-
     /* Enter to HEB Invoice Page */
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.goto("https://facturacion.heb.com.mx/cli/invoice-create");
-    
+
     await page.waitForNavigation();
     await page.waitForTimeout(3000);
-    
+
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
 
@@ -142,7 +162,7 @@ export const getHebInvoice = async (req, res) => {
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
-    
+
     await page.waitForNavigation();
     await page.waitForTimeout(5000);
 
