@@ -4,9 +4,11 @@ export const getCostcoInvoice = async (req, res) => {
   const { ticket, monto } = req.body;
 
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
     await page.goto("https://www3.costco.com.mx/facturacion");
+
+    await page.waitForTimeout(3000);
 
     const inputTicket = await page.$("#ticket");
     const inputMonto = await page.$("#monto");
@@ -18,12 +20,14 @@ export const getCostcoInvoice = async (req, res) => {
     await inputRfc.type(process.env.RFC);
     await buttonEnviar.click();
 
-    await page.waitForNavigation();
+    await page.waitForTimeout(2000);
 
     const buttonEnviar2 = await page.$("#btnEnviar");
-    await buttonEnviar2.click();
+    await buttonEnviar2.evaluate((b) => { 
+      b.click();
+    });
 
-    await page.waitForNavigation();
+    await page.waitForTimeout(2000);
 
     await browser.close();
 
