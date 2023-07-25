@@ -1,5 +1,13 @@
 extends ../../layout.pug
+block content
+  include ../../components/mixins/anchorTagImg.pug
 
-block content 
-  h1(class="text-green-300 text-lg font-bold") Página principal facturas
-  p(class="text-red-500") Tailwind funciona pls
+  div(class="h-screen w-screen p-8")
+    div(class="flex justify-center mb-8")
+      div(class="items-center")
+        h1(class="text-black text-4xl font-bold") Facturación
+    div(class="grid grid-cols-4")
+      +anchorTagImg("/invoice/costco", "images/Costco.png", "Costco Logo")
+      +anchorTagImg("/invoice/walmart", "images/Sams.png", "Sams Logo")
+      +anchorTagImg("/invoice/walmart", "images/Walmart.png", "Walmart Logo")
+      +anchorTagImg("/invoice/heb", "images/HEB.png", "HEB Logo")
