@@ -1,19 +1,13 @@
 import puppeteer from "puppeteer";
+import { successStatus, errorStatus } from "../utils/statusHandler.utils.js";
+import costcoNavigation from "../utils/costcoNavigation.utils.js";
+import walmartNavigation from "../utils/walmartNavigation.utils.js";
+import hebNavitation from "../utils/hebNavigation.utils.js";
 import {
   renderCostcoPage,
   renderWalmartPage,
   renderHebPage,
 } from "../utils/renderPage.utils.js";
-import { successStatus, errorStatus } from "../utils/statusHandler.utils.js";
-import {
-  handleClientInformationError,
-  handleInitialInformationError,
-  handleSendingInvoiceError,
-} from "../utils/errorHandling.utils.js";
-
-import walmartNavigation from "../utils/walmartNavigation.utils.js";
-import hebNavitation from "../utils/hebNavigation.utils.js";
-import costcoNavigation from "../utils/costcoNavigation.utils.js";
 
 const viewVariables = {
   status: null,
@@ -24,12 +18,62 @@ const RFC = process.env.RFC;
 const CP = process.env.CP;
 const EMAIL = process.env.EMAIL;
 
-export const getCostcoInvoicePage = (req, res) => {
-  viewVariables.status = null;
-  viewVariables.message = "";
+// Toggle Feature Costco
+// export const getCostcoInvoicePage = (req, res) => {
+//   viewVariables.status = null;
+//   viewVariables.message = "";
 
-  renderCostcoPage(res, viewVariables);
-};
+//   renderCostcoPage(res, viewVariables);
+// };
+
+// export const getCostcoInvoice = async (req, res) => {
+//   const { ticket, monto } = req.body;
+
+//   try {
+//     const browser = await puppeteer.launch({ headless: false });
+//     const page = await browser.newPage();
+
+//     await costcoNavigation.goToPage(
+//       page,
+//       "https://www3.costco.com.mx/facturacion"
+//     );
+
+//     await costcoNavigation.enterTicketInformation(
+//       browser,
+//       page,
+//       ticket,
+//       monto,
+//       RFC
+//     );
+
+//     // const buttonEnviar2 = await page.$("#btnEnviar");
+//     // await buttonEnviar2.evaluate((b) => {
+//     //   b.click();
+//     // });
+
+//     await page.waitForTimeout(2000);
+
+//     await browser.close();
+
+//     viewVariables.status = successStatus.status;
+//     viewVariables.message = successStatus.message;
+
+//     renderCostcoPage(res, viewVariables);
+
+//     /* If treated as a REST API */
+//     // res.status(200).json({ message: "Successfully created and sent invoice" });
+//   } catch (error) {
+//     viewVariables.status = errorStatus.status;
+//     viewVariables.message = errorStatus.message;
+
+//     console.error(error);
+
+//     renderCostcoPage(res, viewVariables);
+
+//     /* If treated as a REST API */
+//     // res.status(400).json({ message: error.message });
+//   }
+// };
 
 export const getWalmartInvoicePage = (req, res) => {
   const { company } = req.query;
@@ -39,53 +83,6 @@ export const getWalmartInvoicePage = (req, res) => {
   viewVariables.message = "";
 
   renderWalmartPage(res, viewVariables);
-};
-
-export const getHebInvoicePage = (req, res) => {
-  viewVariables.status = null;
-  viewVariables.message = "";
-
-  renderHebPage(res, viewVariables);
-};
-
-export const getCostcoInvoice = async (req, res) => {
-  const { ticket, monto } = req.body;
-
-  try {
-    const browser = await puppeteer.launch({ headless: false });
-    const page = await browser.newPage();
-
-    await costcoNavigation.goToPage(page, "https://www3.costco.com.mx/facturacion");
-
-    await costcoNavigation.enterTicketInformation(browser, page, ticket, monto, RFC);
-
-    // const buttonEnviar2 = await page.$("#btnEnviar");
-    // await buttonEnviar2.evaluate((b) => {
-    //   b.click();
-    // });
-
-    await page.waitForTimeout(2000);
-
-    await browser.close();
-
-    viewVariables.status = successStatus.status;
-    viewVariables.message = successStatus.message;
-
-    renderCostcoPage(res, viewVariables);
-
-    /* If treated as a REST API */
-    // res.status(200).json({ message: "Successfully created and sent invoice" });
-  } catch (error) {
-    viewVariables.status = errorStatus.status;
-    viewVariables.message = errorStatus.message;
-
-    console.error(error);
-
-    renderCostcoPage(res, viewVariables);
-
-    /* If treated as a REST API */
-    // res.status(400).json({ message: error.message });
-  }
 };
 
 export const getWalmartInvoice = async (req, res) => {
@@ -134,6 +131,13 @@ export const getWalmartInvoice = async (req, res) => {
     /* If treated as a REST API */
     // res.status(400).json({ message: error.message });
   }
+};
+
+export const getHebInvoicePage = (req, res) => {
+  viewVariables.status = null;
+  viewVariables.message = "";
+
+  renderHebPage(res, viewVariables);
 };
 
 export const getHebInvoice = async (req, res) => {
