@@ -6,8 +6,8 @@ block content
     div(class="flex justify-center mb-8")
       div(class="items-center")
         h1(class="text-black text-4xl font-bold") Facturación
-    div(class="grid grid-cols-4")
+    div(class="grid grid-cols-4 gap-2")
       +anchorTagImg("/invoice/costco", "images/Costco.png", "Costco Logo")
-      +anchorTagImg("/invoice/walmart", "images/Sams.png", "Sams Logo")
-      +anchorTagImg("/invoice/walmart", "images/Walmart.png", "Walmart Logo")
+      +anchorTagImg("/invoice/walmart/?company=sams", "images/Sams.png", "Sams Logo")
+      +anchorTagImg("/invoice/walmart/?company=walmart", "images/Walmart.png", "Walmart Logo")
       +anchorTagImg("/invoice/heb", "images/HEB.png", "HEB Logo")

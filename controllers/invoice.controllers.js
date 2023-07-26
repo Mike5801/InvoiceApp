@@ -1,5 +1,19 @@
 import puppeteer from "puppeteer";
 
+export const getCostcoInvoicePage = (req, res) => {
+  res.render('pages/Costco/index');
+}
+
+export const getWalmartInvoicePage = (req, res) => {
+  const { company } = req.query;
+
+  res.render('pages/Walmart/index', { company });
+}
+
+export const getHebInvoicePage = (req, res) => {
+  res.render('pages/Heb/index');
+}
+
 export const getCostcoInvoice = async (req, res) => {
   const { ticket, monto } = req.body;
 
