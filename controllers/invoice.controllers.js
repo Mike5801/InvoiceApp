@@ -12,6 +12,7 @@ import {
 } from "../utils/errorHandling.utils.js";
 
 import walmartNavigation from "../utils/walmartNavigation.utils.js";
+import hebNavitation from "../utils/hebNavigation.utils.js";
 
 const viewVariables = {
   status: null,
@@ -20,6 +21,7 @@ const viewVariables = {
 
 const RFC = process.env.RFC;
 const CP = process.env.CP;
+const EMAIL = process.env.EMAIL;
 
 export const getCostcoInvoicePage = (req, res) => {
   viewVariables.status = null;
@@ -107,9 +109,20 @@ export const getWalmartInvoice = async (req, res) => {
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
 
-    await walmartNavigation.goToPage(page, "https://facturacion.walmartmexico.com.mx/Default.aspx", "https://facturacion.walmartmexico.com.mx/frmDatos.aspx");
+    await walmartNavigation.goToPage(
+      page,
+      "https://facturacion.walmartmexico.com.mx/Default.aspx",
+      "https://facturacion.walmartmexico.com.mx/frmDatos.aspx"
+    );
 
-    await walmartNavigation.enterTicketInformation(browser, page, RFC, CP, ticket, transaction);
+    await walmartNavigation.enterTicketInformation(
+      browser,
+      page,
+      RFC,
+      CP,
+      ticket,
+      transaction
+    );
 
     await walmartNavigation.enterInvoiceInformation(browser, page);
 
@@ -153,66 +166,24 @@ export const getHebInvoice = async (req, res) => {
     /* Enter to HEB Invoice Page */
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
-    await page.goto("https://facturacion.heb.com.mx/cli/invoice-create");
 
-    await page.waitForTimeout(5000);
+    await hebNavitation.goToPage(
+      page,
+      "https://facturacion.heb.com.mx/cli/invoice-create"
+    );
 
-    await page.keyboard.press("Tab");
-    await page.keyboard.press("Enter");
+    await hebNavitation.enterTicketInformation(
+      browser,
+      page,
+      branchOffice,
+      ticket,
+      numDays,
+      totalSale
+    );
 
-    const inputBranchOffice = await page.$("#mat-input-0");
-    if (!inputBranchOffice) handleInitialInformationError();
+    await hebNavitation.enterInvoiceInformation(browser, page, RFC, EMAIL);
 
-    await inputBranchOffice.type(branchOffice);
-    await page.keyboard.press("Enter");
-
-    /* Enter initial information of invoice (ticket, date, branch office and total sale) */
-    const inputTicket = await page.$("#mat-input-1");
-    await inputTicket.type(ticket);
-
-    const inputDate = await page.$("#mat-input-2");
-    await inputDate.click();
-    for (let i = 0; i < numDays; i++) {
-      await page.keyboard.press("ArrowLeft");
-    }
-    await page.keyboard.press("Enter");
-
-    const inputTotalSale = await page.$("#mat-input-3");
-    await inputTotalSale.type(totalSale);
-
-    await page.keyboard.press("Tab");
-    await page.keyboard.press("Enter");
-    await page.waitForTimeout(5000);
-
-    await page.keyboard.press("Tab");
-    await page.keyboard.press("Tab");
-    await page.keyboard.press("Tab");
-    await page.keyboard.press("Enter");
-
-    await page.waitForTimeout(7000);
-
-    /* Enter client information (RFC, email and invoice use) */
-    const inputRfc = await page.$("#mat-input-6");
-    if (!inputRfc) handleClientInformationError();
-
-    await inputRfc.type(process.env.RFC);
-    await page.keyboard.press("Tab");
-    await page.waitForTimeout(5000);
-
-    const inputEmail = await page.$("#mat-input-7");
-    await inputEmail.type(process.env.EMAIL);
-
-    const inputInvoiceUse = await page.$("#mat-input-5");
-    await inputInvoiceUse.type("G03");
-    await page.keyboard.press("ArrowDown");
-    await page.keyboard.press("Enter");
-
-    /* Send invoice to email */
-    await page.keyboard.press("Tab");
-    await page.keyboard.press("Tab");
-    await page.keyboard.press("Tab");
-    await page.keyboard.press("Enter");
-    await page.waitForTimeout(7000);
+    await hebNavitation.sendInvoice(page);
 
     await browser.close();
 
