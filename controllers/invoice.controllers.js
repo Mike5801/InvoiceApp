@@ -13,6 +13,7 @@ import {
 
 import walmartNavigation from "../utils/walmartNavigation.utils.js";
 import hebNavitation from "../utils/hebNavigation.utils.js";
+import costcoNavigation from "../utils/costcoNavigation.utils.js";
 
 const viewVariables = {
   status: null,
@@ -51,27 +52,12 @@ export const getCostcoInvoice = async (req, res) => {
   const { ticket, monto } = req.body;
 
   try {
-    /* Enter to Costco's invoice page */
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
-    await page.goto("https://www3.costco.com.mx/facturacion");
 
-    await page.waitForTimeout(3000);
+    await costcoNavigation.goToPage(page, "https://www3.costco.com.mx/facturacion");
 
-    /* Enter information for invoice */
-    const inputTicket = await page.$("#ticket");
-    if (!inputTicket) handleInitialInformationError();
-
-    const inputMonto = await page.$("#monto");
-    const inputRfc = await page.$("#rfc");
-    const buttonEnviar = await page.$("#btnEnviar");
-
-    await inputTicket.type(ticket);
-    await inputMonto.type(monto);
-    await inputRfc.type(process.env.RFC);
-    await buttonEnviar.click();
-
-    await page.waitForTimeout(2000);
+    await costcoNavigation.enterTicketInformation(browser, page, ticket, monto, RFC);
 
     // const buttonEnviar2 = await page.$("#btnEnviar");
     // await buttonEnviar2.evaluate((b) => {
@@ -106,7 +92,7 @@ export const getWalmartInvoice = async (req, res) => {
   const { transaction, ticket } = req.body;
 
   try {
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
 
     await walmartNavigation.goToPage(
