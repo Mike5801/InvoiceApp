@@ -10,16 +10,13 @@ import {
 
 const router = express.Router();
 
-router.get("/costco", getCostcoInvoicePage);
+// router.get("/costco", getCostcoInvoicePage);
+// router.post("/costco", getCostcoInvoice);
 
 router.get("/walmart", getWalmartInvoicePage);
-
-router.get("/heb", getHebInvoicePage);
-
-router.post("/costco", getCostcoInvoice);
-
 router.post("/walmart", getWalmartInvoice);
 
+router.get("/heb", getHebInvoicePage);
 router.post("/heb", getHebInvoice);
 
 export default router;

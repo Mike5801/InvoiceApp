@@ -1,30 +1,60 @@
 import puppeteer from "puppeteer";
+import {
+  renderCostcoPage,
+  renderWalmartPage,
+  renderHebPage,
+} from "../utils/renderPage.utils.js";
+import { successStatus, errorStatus } from "../utils/statusHandler.utils.js";
+import {
+  handleClientInformationError,
+  handleInitialInformationError,
+  handleSendingInvoiceError,
+} from "../utils/errorHandling.utils.js";
+
+const viewVariables = {
+  status: null,
+  message: "",
+};
 
 export const getCostcoInvoicePage = (req, res) => {
-  res.render('pages/Costco/index');
-}
+  viewVariables.status = null;
+  viewVariables.message = "";
+
+  renderCostcoPage(res, viewVariables);
+};
 
 export const getWalmartInvoicePage = (req, res) => {
   const { company } = req.query;
 
-  res.render('pages/Walmart/index', { company });
-}
+  viewVariables.company = company;
+  viewVariables.status = null;
+  viewVariables.message = "";
+
+  renderWalmartPage(res, viewVariables);
+};
 
 export const getHebInvoicePage = (req, res) => {
-  res.render('pages/Heb/index');
-}
+  viewVariables.status = null;
+  viewVariables.message = "";
+
+  renderHebPage(res, viewVariables);
+};
 
 export const getCostcoInvoice = async (req, res) => {
   const { ticket, monto } = req.body;
 
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    /* Enter to Costco's invoice page */
+    const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
     await page.goto("https://www3.costco.com.mx/facturacion");
 
     await page.waitForTimeout(3000);
 
+    /* Enter information for invoice */
     const inputTicket = await page.$("#ticket");
+    if (!inputTicket) handleInitialInformationError();
+
     const inputMonto = await page.$("#monto");
     const inputRfc = await page.$("#rfc");
     const buttonEnviar = await page.$("#btnEnviar");
@@ -36,18 +66,32 @@ export const getCostcoInvoice = async (req, res) => {
 
     await page.waitForTimeout(2000);
 
-    const buttonEnviar2 = await page.$("#btnEnviar");
-    await buttonEnviar2.evaluate((b) => {
-      b.click();
-    });
+    // const buttonEnviar2 = await page.$("#btnEnviar");
+    // await buttonEnviar2.evaluate((b) => {
+    //   b.click();
+    // });
 
     await page.waitForTimeout(2000);
 
     await browser.close();
 
-    res.status(200).json({ message: "Successfully created and sent invoice" });
+    viewVariables.status = successStatus.status;
+    viewVariables.message = successStatus.message;
+
+    renderCostcoPage(res, viewVariables);
+
+    /* If treated as a REST API */
+    // res.status(200).json({ message: "Successfully created and sent invoice" });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    viewVariables.status = errorStatus.status;
+    viewVariables.message = errorStatus.message;
+
+    console.error(error);
+
+    renderCostcoPage(res, viewVariables);
+
+    /* If treated as a REST API */
+    // res.status(400).json({ message: error.message });
   }
 };
 
@@ -56,7 +100,7 @@ export const getWalmartInvoice = async (req, res) => {
 
   try {
     /* Go to Walmart invoice page */
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.goto("https://facturacion.walmartmexico.com.mx/Default.aspx");
 
@@ -72,6 +116,8 @@ export const getWalmartInvoice = async (req, res) => {
 
     /* Enter initial invoice data */
     const inputRfc = await page.$("#ctl00_ContentPlaceHolder1_txtMemRFC");
+    if (!inputRfc) handleInitialInformationError();
+    
     const inputCP = await page.$("#ctl00_ContentPlaceHolder1_txtCP");
     const inputTicket = await page.$("#ctl00_ContentPlaceHolder1_txtTC");
     const inputTransaction = await page.$("#ctl00_ContentPlaceHolder1_txtTR");
@@ -85,9 +131,14 @@ export const getWalmartInvoice = async (req, res) => {
     await inputTransaction.type(transaction);
     await buttonContinue.click();
 
-    await page.waitForNavigation();
+    await page.waitForTimeout(5000);
 
     /* Enter specific invoice data (Régimen Fiscal and use of invoice) */
+    const regimenFiscalDropdown = await page.$(
+      "#ctl00_ContentPlaceHolder1_ddlregimenFiscal"
+    );
+    if (!regimenFiscalDropdown) handleClientInformationError();
+
     await page.select("#ctl00_ContentPlaceHolder1_ddlregimenFiscal", "621");
     await page.waitForTimeout(1000);
     await page.select("#ctl00_ContentPlaceHolder1_ddlusoCFDI", "G03");
@@ -101,13 +152,14 @@ export const getWalmartInvoice = async (req, res) => {
     const buttonConfirm = await page.$("#ctl00_btnContinuar");
     await buttonConfirm.click();
 
-    await page.waitForNavigation();
+    await page.waitForTimeout(5000);
 
-    /* Select way of receiving invoice */
+    /* Send invoice  */
     const buttonEmail = await page.$("#ctl00_ContentPlaceHolder1_rdCorreo");
+    if (!buttonEmail) handleSendingInvoiceError();
+
     await buttonEmail.click();
 
-    /* Send invoice */
     const buttonInvoice = await page.$(
       "#ctl00_ContentPlaceHolder1_btnFacturar"
     );
@@ -115,14 +167,28 @@ export const getWalmartInvoice = async (req, res) => {
 
     const buttonClose = await page.$("#ctl00_ContentPlaceHolder1_btnCerrar");
     await buttonClose.click();
-    
+
     await page.waitForTimeout(5000);
 
     await browser.close();
 
-    res.status(200).json({ message: "Successfully created and sent invoice" });
+    viewVariables.status = successStatus.status;
+    viewVariables.message = successStatus.message;
+
+    renderWalmartPage(res, viewVariables);
+
+    /* If treated as a REST API */
+    // res.status(200).json({ message: "Successfully created and sent invoice" });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    viewVariables.status = errorStatus.status;
+    viewVariables.message = errorStatus.message;
+
+    console.error(error);
+
+    renderWalmartPage(res, viewVariables);
+
+    /* If treated as a REST API */
+    // res.status(400).json({ message: error.message });
   }
 };
 
@@ -144,13 +210,14 @@ export const getHebInvoice = async (req, res) => {
     const page = await browser.newPage();
     await page.goto("https://facturacion.heb.com.mx/cli/invoice-create");
 
-    await page.waitForNavigation();
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(5000);
 
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
 
     const inputBranchOffice = await page.$("#mat-input-0");
+    if (!inputBranchOffice) handleInitialInformationError();
+
     await inputBranchOffice.type(branchOffice);
     await page.keyboard.press("Enter");
 
@@ -177,11 +244,12 @@ export const getHebInvoice = async (req, res) => {
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
 
-    await page.waitForNavigation();
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(7000);
 
     /* Enter client information (RFC, email and invoice use) */
     const inputRfc = await page.$("#mat-input-6");
+    if (!inputRfc) handleClientInformationError();
+
     await inputRfc.type(process.env.RFC);
     await page.keyboard.press("Tab");
     await page.waitForTimeout(5000);
@@ -199,13 +267,26 @@ export const getHebInvoice = async (req, res) => {
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
-    await page.waitForNavigation();
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(7000);
 
     await browser.close();
 
-    res.status(200).json({ message: "Successfully created and sent invoice" });
+    viewVariables.status = successStatus.status;
+    viewVariables.message = successStatus.message;
+
+    renderHebPage(res, viewVariables);
+
+    /* If treated as a REST API */
+    // res.status(200).json({ message: "Successfully created and sent invoice" });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    viewVariables.message = errorStatus.message;
+    viewVariables.status = errorStatus.status;
+
+    console.error(error);
+
+    renderHebPage(res, viewVariables);
+
+    /* If treated as a REST API */
+    // res.status(400).json({ message: error.message });
   }
 };

@@ -4,9 +4,14 @@ block content
   include ../../components/mixins/formInput.pug
   include ../../components/mixins/formButton.pug
   include ../../components/mixins/anchorButton.pug
+  include ../../components/mixins/statusCard.pug
+
   div(class="h-screen w-screen p-8")
     div(class="flex justify-center mb-8 items-center")
-        +imgLogo("/images/HEB.png", "HEB logo")
+      +imgLogo("/images/HEB.png", "HEB logo")
+    if status
+      div(class="flex justify-center items-center")
+        +statusCard(status, message) 
     div(class="flex flex-col items-center")
       form(class="flex flex-col gap-3 md:w-2/3 w-full" action="/invoice/heb" method="POST")
         +formInput("Número ticket: ", "ticket")
