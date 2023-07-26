@@ -1,4 +1,5 @@
 import puppeteer from "puppeteer";
+import dotenv from "dotenv"
 import { successStatus, errorStatus } from "../utils/statusHandler.utils.js";
 import costcoNavigation from "../utils/costcoNavigation.utils.js";
 import walmartNavigation from "../utils/walmartNavigation.utils.js";
@@ -13,6 +14,8 @@ const viewVariables = {
   status: null,
   message: "",
 };
+
+dotenv.config();
 
 const RFC = process.env.RFC;
 const CP = process.env.CP;
@@ -32,6 +35,8 @@ const EMAIL = process.env.EMAIL;
 //   try {
 //     const browser = await puppeteer.launch({ headless: false });
 //     const page = await browser.newPage();
+//     page.setDefaultNavigationTimeout(0);
+
 
 //     await costcoNavigation.goToPage(
 //       page,
@@ -89,15 +94,16 @@ export const getWalmartInvoice = async (req, res) => {
   const { transaction, ticket } = req.body;
 
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
+    page.setDefaultNavigationTimeout(0);
 
     await walmartNavigation.goToPage(
       page,
       "https://facturacion.walmartmexico.com.mx/Default.aspx",
       "https://facturacion.walmartmexico.com.mx/frmDatos.aspx"
     );
-
+  
     await walmartNavigation.enterTicketInformation(
       browser,
       page,
@@ -107,7 +113,7 @@ export const getWalmartInvoice = async (req, res) => {
       transaction
     );
 
-    await walmartNavigation.enterInvoiceInformation(browser, page);
+    await walmartNavigation.enterInvoiceInformation(page);
 
     await walmartNavigation.sendInvoice(browser, page);
 
@@ -156,6 +162,8 @@ export const getHebInvoice = async (req, res) => {
     /* Enter to HEB Invoice Page */
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
+    page.setDefaultNavigationTimeout(0);
+
 
     await hebNavitation.goToPage(
       page,
