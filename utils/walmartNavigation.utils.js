@@ -1,5 +1,4 @@
 import {
-  handleClientInformationError,
   handleInitialInformationError,
   handleSendingInvoiceError,
 } from "./errorHandling.utils.js";
@@ -38,31 +37,26 @@ const walmartNavigation = {
     await inputTransaction.type(transaction);
     await buttonContinue.click();
 
-    await page.waitForTimeout(7000);
+    await page.waitForNavigation();
+    await page.waitForTimeout(3000);
   },
-  async enterInvoiceInformation(browser, page) {
-    const regimenFiscalDropdown = await page.$(
-      "#ctl00_ContentPlaceHolder1_ddlregimenFiscal"
-    );
-    if (!regimenFiscalDropdown) {
-      await browser.close();
-      handleClientInformationError();
-    }
-
+  async enterInvoiceInformation(page) {
+    
     await page.select("#ctl00_ContentPlaceHolder1_ddlregimenFiscal", "621");
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(5000);
     await page.select("#ctl00_ContentPlaceHolder1_ddlusoCFDI", "G03");
-    await page.waitForTimeout(1000);
-
+    
     const buttonAccept = await page.$("#ctl00_ContentPlaceHolder1_btnAceptar");
+    
     await buttonAccept.click();
 
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(3000);
 
     const buttonConfirm = await page.$("#ctl00_btnContinuar");
     await buttonConfirm.click();
 
-    await page.waitForTimeout(5000);
+    await page.waitForNavigation();
+    await page.waitForTimeout(3000);
   },
   async sendInvoice(browser, page) {
     const buttonEmail = await page.$("#ctl00_ContentPlaceHolder1_rdCorreo");
@@ -78,9 +72,11 @@ const walmartNavigation = {
     );
     await buttonInvoice.click();
 
+    await page.waitForTimeout(3000);
     const buttonClose = await page.$("#ctl00_ContentPlaceHolder1_btnCerrar");
     await buttonClose.click();
 
+    await page.waitForNavigation();
     await page.waitForTimeout(5000);
   },
 };
