@@ -1,9 +1,9 @@
 import express from "express";
 import {
-  getCostcoInvoice,
+  // getCostcoInvoice,
   getWalmartInvoice,
   getHebInvoice,
-  getCostcoInvoicePage,
+  // getCostcoInvoicePage,
   getHebInvoicePage,
   getWalmartInvoicePage,
 } from "../controllers/invoice.controllers.js";
