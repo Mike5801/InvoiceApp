@@ -1,0 +1,27 @@
+extends ../../layout.pug
+block content
+  include ../../components/mixins/imgLogo.pug
+  include ../../components/mixins/formInput.pug
+  include ../../components/mixins/formButton.pug
+  include ../../components/mixins/anchorButton.pug
+  include ../../components/mixins/statusCard.pug
+
+  div(class="h-screen w-screen p-8")
+    div(class="flex justify-center mb-8 items-center")
+      if company == "walmart"
+        +imgLogo("/images/Walmart.png", "Walmart logo")
+      else
+        +imgLogo("/images/Sams.png", "Sams logo")
+    if status
+      div(class="flex justify-center items-center")
+        +statusCard(status, message)
+    div(class="flex flex-col items-center")
+      form(class="flex flex-col gap-3 md:w-2/3 w-full" action="/invoice/walmart" method="POST")
+        +formInput("Número #TR: ", "transaction")
+        +formInput("Número ticket #TC: ", "ticket")
+        input(type="text" hidden value=company)
+        div(class="w-full grid grid-cols-2 justify-between items-center gap-6 mt-3")
+          div(class="col-span-2 md:col-auto")
+            +anchorButton("Regresar")
+          div(class="col-span-2 md:col-auto")
+            +formButton("Facturar", "/")
