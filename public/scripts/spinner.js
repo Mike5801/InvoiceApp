@@ -2,7 +2,7 @@ function showSpinner() {
   const loadingSpinner = document.getElementById("loadingSpinner");
   const formButtons = document.getElementById("formButtons");
 
-  loadingSpinner.className = "justify-center items-center flex mt-2";
+  loadingSpinner.className = "justify-center items-center flex mt-3";
   formButtons.className = "hidden";
 }
 

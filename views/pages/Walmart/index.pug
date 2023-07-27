@@ -25,6 +25,5 @@ block content
             +anchorButton("Regresar")
           div(class="col-span-2 md:col-auto")
             +formButton("Facturar", "/")
-        div(class="w-full justify-center items-center hidden" id="loadingSpinner")
-          div(class="col-span-2 loader") Loading...
+        include ../../components/generic/spinner.pug
   script(src="/scripts/spinner.js") 
