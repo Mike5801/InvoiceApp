@@ -1,0 +1,6 @@
+mixin helpImgIcon(hintImage)
+  - var iconClass = "border border-gray-200 shadow-lg w-7 h-7 rounded-full flex justify-center items-center hover:bg-gray-200 bg-white"
+  div(class="flex group items-center justify-center cursor-pointer relative")
+    i(class=`${iconClass} fa-solid fa-question`)
+    div(class="hidden group-hover:block absolute md:left-7 -left-36 shadow-lg rounded-lg overflow-y-auto h-[32rem] w-80")
+      img(class="object-cover" src=hintImage, alt="")
