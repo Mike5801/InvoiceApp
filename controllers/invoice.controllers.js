@@ -94,7 +94,7 @@ export const getWalmartInvoice = async (req, res) => {
   const { transaction, ticket } = req.body;
 
   try {
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     page.setDefaultNavigationTimeout(0);
 

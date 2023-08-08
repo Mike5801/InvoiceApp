@@ -16,6 +16,8 @@ block content
       form(class="flex flex-col gap-3 md:w-2/3 w-full" action="/invoice/costco" method="POST" id="invoiceForm")
         +formInput("Número ticket: ", "ticket")
         +formInput("Monto total: ", "monto")
+        div(class="flex justify-center items-center")
+          +helpImgIcon("/images/CostcoInvoice.jpg")
         div(class="w-full grid grid-cols-2 justify-between items-center gap-6 mt-3" id="formButtons")
           div(class="col-span-2 md:col-auto")
             +anchorButton("Regresar")
