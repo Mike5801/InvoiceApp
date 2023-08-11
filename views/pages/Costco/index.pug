@@ -7,7 +7,7 @@ block content
   include ../../components/mixins/statusCard.pug
   include ../../components/mixins/helpImgIcon.pug
   
-  div(class="h-screen w-screen p-8")
+  div(class="h-screen w-screen p-8 overflow-hidden")
     div(class="flex justify-center mb-8 items-center")
       +imgLogo("/images/Costco.png", "Costco logo")
     if status
