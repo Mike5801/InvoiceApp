@@ -1,18 +1,17 @@
 import express from "express";
 import {
-  // getCostcoInvoice,
+  getCostcoInvoice,
   getWalmartInvoice,
   getHebInvoice,
-  // getCostcoInvoicePage,
+  getCostcoInvoicePage,
   getHebInvoicePage,
   getWalmartInvoicePage,
 } from "../controllers/invoice.controllers.js";
 
 const router = express.Router();
 
-// Toggle Feature Costco
-// router.get("/costco", getCostcoInvoicePage);
-// router.post("/costco", getCostcoInvoice);
+router.get("/costco", getCostcoInvoicePage);
+router.post("/costco", getCostcoInvoice);
 
 router.get("/walmart", getWalmartInvoicePage);
 router.post("/walmart", getWalmartInvoice);

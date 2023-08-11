@@ -1,5 +1,5 @@
 import {
-  handleClientInformationError,
+  handleSendingInvoiceError,
   handleInitialInformationError,
 } from "./errorHandling.utils.js";
 
@@ -13,6 +13,7 @@ const costcoNavigation = {
     if (!inputTicket) {
       await browser.close();
       handleInitialInformationError();
+      return;
     }
 
     const inputMonto = await page.$("#monto");
@@ -25,6 +26,19 @@ const costcoNavigation = {
     await buttonEnviar.click();
 
     await page.waitForTimeout(2000);
+  },
+  async sendInvoice(browser, page) {
+    await page.waitForTimeout(3000);
+    const buttons = await page.$$("#btnEnviar");
+
+    if (buttons.length < 2) {
+      await browser.close();
+      handleSendingInvoiceError();
+      return;
+    }
+
+    const buttonEnviar = buttons[1];
+    await buttonEnviar.click();
   },
 };
 
