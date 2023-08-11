@@ -21,64 +21,61 @@ const RFC = process.env.RFC;
 const CP = process.env.CP;
 const EMAIL = process.env.EMAIL;
 
-// Toggle Feature Costco
-// export const getCostcoInvoicePage = (req, res) => {
-//   viewVariables.status = null;
-//   viewVariables.message = "";
+export const getCostcoInvoicePage = (req, res) => {
+  viewVariables.status = null;
+  viewVariables.message = "";
 
-//   renderCostcoPage(res, viewVariables);
-// };
+  renderCostcoPage(res, viewVariables);
+};
 
-// export const getCostcoInvoice = async (req, res) => {
-//   const { ticket, monto } = req.body;
+export const getCostcoInvoice = async (req, res) => {
+  const { ticket, monto } = req.body;
 
-//   try {
-//     const browser = await puppeteer.launch({ headless: false });
-//     const page = await browser.newPage();
-//     page.setDefaultNavigationTimeout(0);
+  try {
+    const browser = await puppeteer.launch({ headless: false });
+    const page = await browser.newPage();
+    await page.setViewport( { 'width' : 1024, 'height' : 1600 } );
+    page.setDefaultNavigationTimeout(0);
 
 
-//     await costcoNavigation.goToPage(
-//       page,
-//       "https://www3.costco.com.mx/facturacion"
-//     );
+    await costcoNavigation.goToPage(
+      page,
+      "https://www3.costco.com.mx/facturacion"
+    );
 
-//     await costcoNavigation.enterTicketInformation(
-//       browser,
-//       page,
-//       ticket,
-//       monto,
-//       RFC
-//     );
+    await costcoNavigation.enterTicketInformation(
+      browser,
+      page,
+      ticket,
+      monto,
+      RFC
+    );
 
-//     // const buttonEnviar2 = await page.$("#btnEnviar");
-//     // await buttonEnviar2.evaluate((b) => {
-//     //   b.click();
-//     // });
+    await costcoNavigation.sendInvoice(browser, page);
 
-//     await page.waitForTimeout(2000);
+    await page.waitForTimeout(2000);
 
-//     await browser.close();
+    await browser.close();
 
-//     viewVariables.status = successStatus.status;
-//     viewVariables.message = successStatus.message;
+    viewVariables.status = successStatus.status;
+    viewVariables.message = successStatus.message;
 
-//     renderCostcoPage(res, viewVariables);
+    renderCostcoPage(res, viewVariables);
 
-//     /* If treated as a REST API */
-//     // res.status(200).json({ message: "Successfully created and sent invoice" });
-//   } catch (error) {
-//     viewVariables.status = errorStatus.status;
-//     viewVariables.message = errorStatus.message;
+    /* If treated as a REST API */
+    // res.status(200).json({ message: "Successfully created and sent invoice" });
+  } catch (error) {
+    viewVariables.status = errorStatus.status;
+    viewVariables.message = errorStatus.message;
 
-//     console.error(error);
+    console.error(error);
 
-//     renderCostcoPage(res, viewVariables);
+    renderCostcoPage(res, viewVariables);
 
-//     /* If treated as a REST API */
-//     // res.status(400).json({ message: error.message });
-//   }
-// };
+    /* If treated as a REST API */
+    // res.status(400).json({ message: error.message });
+  }
+};
 
 export const getWalmartInvoicePage = (req, res) => {
   const { company } = req.query;

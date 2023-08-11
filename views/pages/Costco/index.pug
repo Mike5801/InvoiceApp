@@ -5,6 +5,7 @@ block content
   include ../../components/mixins/formButton.pug
   include ../../components/mixins/anchorButton.pug
   include ../../components/mixins/statusCard.pug
+  include ../../components/mixins/helpImgIcon.pug
   
   div(class="h-screen w-screen p-8")
     div(class="flex justify-center mb-8 items-center")
@@ -23,7 +24,7 @@ block content
             +anchorButton("Regresar")
           div(class="col-span-2 md:col-auto")
             +formButton("Facturar", "/")
-          include ../../components/generic/spinner.pug
+        include ../../components/generic/spinner.pug
   script(src="/scripts/spinner.js") 
 
 
