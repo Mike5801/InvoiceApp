@@ -32,7 +32,7 @@ export const getCostcoInvoice = async (req, res) => {
   const { ticket, monto } = req.body;
 
   try {
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.setViewport( { 'width' : 1024, 'height' : 1600 } );
     page.setDefaultNavigationTimeout(0);
