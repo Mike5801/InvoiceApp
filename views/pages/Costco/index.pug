@@ -6,6 +6,9 @@ block content
   include ../../components/mixins/anchorButton.pug
   include ../../components/mixins/statusCard.pug
   include ../../components/mixins/helpImgIcon.pug
+
+  - var totalSaleRegex = "this.value = this.value.replace(/[^0-9.]/g, '')"
+  - var ticketRegex = "this.value = this.value.replace(/[^0-9]/g, '')"
   
   div(class="h-screen w-screen p-8 overflow-hidden")
     div(class="flex justify-center mb-8 items-center")
@@ -15,8 +18,8 @@ block content
         +statusCard(status, message)
     div(class="flex flex-col items-center")
       form(class="flex flex-col gap-3 md:w-2/3 w-full" action="/invoice/costco" method="POST" id="invoiceForm")
-        +formInput("Número ticket: ", "ticket")
-        +formInput("Monto total: ", "monto")
+        +formInput("Número ticket: ", "ticket", ticketRegex, "20", "20")
+        +formInput("Monto total: ", "monto", totalSaleRegex, null, null)
         div(class="flex justify-center items-center")
           +helpImgIcon("/images/CostcoInvoice.jpg")
         div(class="w-full grid grid-cols-2 justify-between items-center gap-6 mt-3" id="formButtons")

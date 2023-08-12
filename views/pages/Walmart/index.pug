@@ -7,6 +7,8 @@ block content
   include ../../components/mixins/statusCard.pug
   include ../../components/mixins/helpImgIcon.pug
 
+  - var ticketRegex = "this.value = this.value.replace(/[^0-9]/g, '')" 
+
   div(class="h-screen w-screen p-8 overflow-hidden")
     div(class="flex justify-center mb-8 items-center")
       if company == "walmart"
@@ -18,8 +20,8 @@ block content
         +statusCard(status, message)
     div(class="flex flex-col items-center")
       form(class="flex flex-col gap-3 md:w-2/3 w-full" action="/invoice/walmart" method="POST" id="invoiceForm")
-        +formInput("Número #TR: ", "transaction")
-        +formInput("Número ticket #TC: ", "ticket")
+        +formInput("Número #TR: ", "transaction", ticketRegex, "5", "5")
+        +formInput("Número ticket #TC: ", "ticket", ticketRegex, "22", "22")
         input(type="text" hidden value=company)
         div(class="flex justify-center items-center")
           if company == "walmart"
