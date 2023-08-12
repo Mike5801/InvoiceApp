@@ -53,8 +53,6 @@ export const getCostcoInvoice = async (req, res) => {
 
     await costcoNavigation.sendInvoice(browser, page);
 
-    await page.waitForTimeout(2000);
-
     await browser.close();
 
     viewVariables.status = successStatus.status;
@@ -156,7 +154,6 @@ export const getHebInvoice = async (req, res) => {
   const numDays = Math.floor(diffDates / (1000 * 60 * 60 * 24));
 
   try {
-    /* Enter to HEB Invoice Page */
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     page.setDefaultNavigationTimeout(0);
