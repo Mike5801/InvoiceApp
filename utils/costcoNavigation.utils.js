@@ -39,6 +39,8 @@ const costcoNavigation = {
 
     const buttonEnviar = buttons[1];
     await buttonEnviar.click();
+
+    await page.waitForTimeout(2000);
   },
 };
 
