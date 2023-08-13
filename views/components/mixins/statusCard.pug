@@ -2,5 +2,9 @@ mixin statusCard(status, message)
   - var borderTextColor = status == "SUCCESS" ? "text-green-800 border-green-800" : "text-red-800 border-red-800"
   - var bgColor = status == "SUCCESS" ? "bg-green-200" : "bg-red-200"
 
-  div(class=`md:w-2/3 w-full flex justify-center items-center border text-lg py-1 mb-8 rounded ${borderTextColor} ${bgColor}`)
+  div(class=`md:w-2/3 w-full relative flex justify-center items-center border text-lg py-1 mb-8 rounded ${borderTextColor} ${bgColor}` id="statusCard")
+    button(class="absolute flex justify-end items-start w-full h-full pt-1 pr-1" id="closeButton")
+      i(class="fa-solid fa-xmark")
     p= message 
+
+  script(src="/scripts/statusCard.js") 
