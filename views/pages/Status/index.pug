@@ -1,0 +1,11 @@
+extends ../../layout.pug
+
+block content
+  include ../../components/mixins/anchorButton.pug
+
+  div(class="flex justify-center items-center h-screen flex-col")
+    div(class="flex justify-center items-center gap-6 flex-col rounded-3xl bg-white p-6 shadow-md")
+      h1(class="text-5xl font-semibold text-center") Factura enviada, checar correo
+      img(class="object-contain w-32 h-32" src="/images/checkMark.png", alt="")
+      div(class="w-56")
+        +anchorButton("Regresar", "/", "hover:bg-sky-600 bg-sky-500 rounded-md")

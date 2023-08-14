@@ -141,6 +141,10 @@ export const getHebInvoicePage = (req, res) => {
   renderHebPage(res, viewVariables);
 };
 
+export const getSuccessPage = (req, res) => {
+  res.render("pages/Status/index");
+}
+
 export const getHebInvoice = async (req, res) => {
   const { ticket, date, totalSale } = req.body;
   const branchOffice = "(2986) HEB SLP SAN LUIS POTOSI";
