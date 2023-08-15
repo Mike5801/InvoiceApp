@@ -1,6 +1,7 @@
 import express from "express";
 import {
   getMainPage,
+  getSuccessPage,
   getCostcoInvoice,
   getWalmartInvoice,
   getHebInvoice,
@@ -12,6 +13,8 @@ import {
 const router = express.Router();
 
 router.get("/", getMainPage);
+
+router.get("/success", getSuccessPage);
 
 router.get("/costco", getCostcoInvoicePage);
 router.post("/costco", getCostcoInvoice);

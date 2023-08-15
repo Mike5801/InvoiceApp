@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
-import dotenv from "dotenv"
-import { successStatus, errorStatus } from "../utils/statusHandler.utils.js";
+import dotenv from "dotenv";
+import { errorStatus } from "../utils/statusHandler.utils.js";
 import costcoNavigation from "../utils/costcoNavigation.utils.js";
 import walmartNavigation from "../utils/walmartNavigation.utils.js";
 import hebNavitation from "../utils/hebNavigation.utils.js";
@@ -23,6 +23,10 @@ const EMAIL = process.env.EMAIL;
 
 export const getMainPage = (req, res) => {
   res.render("pages/Main/index");
+};
+
+export const getSuccessPage = (req, res) => {
+  res.render("pages/StatusSuccess/index");
 }
 
 export const getCostcoInvoicePage = (req, res) => {
@@ -38,9 +42,8 @@ export const getCostcoInvoice = async (req, res) => {
   try {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
-    await page.setViewport( { 'width' : 1024, 'height' : 1600 } );
+    await page.setViewport({ width: 1024, height: 1600 });
     page.setDefaultNavigationTimeout(0);
-
 
     await costcoNavigation.goToPage(
       page,
@@ -59,10 +62,7 @@ export const getCostcoInvoice = async (req, res) => {
 
     await browser.close();
 
-    viewVariables.status = successStatus.status;
-    viewVariables.message = successStatus.message;
-
-    renderCostcoPage(res, viewVariables);
+    res.redirect("/invoice/success");
   } catch (error) {
     viewVariables.status = errorStatus.status;
     viewVariables.message = errorStatus.message;
@@ -72,6 +72,8 @@ export const getCostcoInvoice = async (req, res) => {
     renderCostcoPage(res, viewVariables);
   }
 };
+
+
 
 export const getWalmartInvoicePage = (req, res) => {
   const { company } = req.query;
@@ -96,7 +98,7 @@ export const getWalmartInvoice = async (req, res) => {
       "https://facturacion.walmartmexico.com.mx/Default.aspx",
       "https://facturacion.walmartmexico.com.mx/frmDatos.aspx"
     );
-  
+
     await walmartNavigation.enterTicketInformation(
       browser,
       page,
@@ -112,10 +114,7 @@ export const getWalmartInvoice = async (req, res) => {
 
     await browser.close();
 
-    viewVariables.status = successStatus.status;
-    viewVariables.message = successStatus.message;
-
-    renderWalmartPage(res, viewVariables);
+    res.redirect("/invoice/success");
   } catch (error) {
     viewVariables.status = errorStatus.status;
     viewVariables.message = errorStatus.message;
@@ -133,10 +132,6 @@ export const getHebInvoicePage = (req, res) => {
   renderHebPage(res, viewVariables);
 };
 
-export const getSuccessPage = (req, res) => {
-  res.render("pages/Status/index");
-}
-
 export const getHebInvoice = async (req, res) => {
   const { ticket, date, totalSale } = req.body;
   const branchOffice = "(2986) HEB SLP SAN LUIS POTOSI";
@@ -153,7 +148,6 @@ export const getHebInvoice = async (req, res) => {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     page.setDefaultNavigationTimeout(0);
-
 
     await hebNavitation.goToPage(
       page,
@@ -175,10 +169,7 @@ export const getHebInvoice = async (req, res) => {
 
     await browser.close();
 
-    viewVariables.status = successStatus.status;
-    viewVariables.message = successStatus.message;
-
-    renderHebPage(res, viewVariables);
+    res.redirect("/invoice/success");
   } catch (error) {
     viewVariables.message = errorStatus.message;
     viewVariables.status = errorStatus.status;
