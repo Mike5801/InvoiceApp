@@ -9,3 +9,7 @@ export const renderWalmartPage = (res, variables) => {
 export const renderHebPage = (res, variables) => {
   res.render('pages/Heb/index', variables);
 }
+
+export const renderSignInPage = (res, variables) => {
+  res.render("pages/SignIn/index", variables);
+}

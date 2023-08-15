@@ -21,6 +21,10 @@ const RFC = process.env.RFC;
 const CP = process.env.CP;
 const EMAIL = process.env.EMAIL;
 
+export const getMainPage = (req, res) => {
+  res.render("pages/Main/index");
+}
+
 export const getCostcoInvoicePage = (req, res) => {
   viewVariables.status = null;
   viewVariables.message = "";
@@ -59,9 +63,6 @@ export const getCostcoInvoice = async (req, res) => {
     viewVariables.message = successStatus.message;
 
     renderCostcoPage(res, viewVariables);
-
-    /* If treated as a REST API */
-    // res.status(200).json({ message: "Successfully created and sent invoice" });
   } catch (error) {
     viewVariables.status = errorStatus.status;
     viewVariables.message = errorStatus.message;
@@ -69,9 +70,6 @@ export const getCostcoInvoice = async (req, res) => {
     console.error(error);
 
     renderCostcoPage(res, viewVariables);
-
-    /* If treated as a REST API */
-    // res.status(400).json({ message: error.message });
   }
 };
 
@@ -118,9 +116,6 @@ export const getWalmartInvoice = async (req, res) => {
     viewVariables.message = successStatus.message;
 
     renderWalmartPage(res, viewVariables);
-
-    /* If treated as a REST API */
-    // res.status(200).json({ message: "Successfully created and sent invoice" });
   } catch (error) {
     viewVariables.status = errorStatus.status;
     viewVariables.message = errorStatus.message;
@@ -128,9 +123,6 @@ export const getWalmartInvoice = async (req, res) => {
     console.error(error);
 
     renderWalmartPage(res, viewVariables);
-
-    /* If treated as a REST API */
-    // res.status(400).json({ message: error.message });
   }
 };
 
@@ -187,9 +179,6 @@ export const getHebInvoice = async (req, res) => {
     viewVariables.message = successStatus.message;
 
     renderHebPage(res, viewVariables);
-
-    /* If treated as a REST API */
-    // res.status(200).json({ message: "Successfully created and sent invoice" });
   } catch (error) {
     viewVariables.message = errorStatus.message;
     viewVariables.status = errorStatus.status;
@@ -197,8 +186,5 @@ export const getHebInvoice = async (req, res) => {
     console.error(error);
 
     renderHebPage(res, viewVariables);
-
-    /* If treated as a REST API */
-    // res.status(400).json({ message: error.message });
   }
 };
