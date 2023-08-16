@@ -2,8 +2,10 @@ extends layout.pug
 
 block initial_content
   include components/mixins/anchorIconButton.pug
-
+  //- Navbar
   div(class="h-screen w-screen flex flex-col items-center")
-    div(class="w-full h-14 bg-sky-500 flex justify-end items-center px-3 shadow-md sticky top-0")
+    div(class="w-full h-14 bg-sky-500 flex justify-between items-center px-3 shadow-md sticky top-0")
+      +anchorIconButton("fa-solid fa-gear", "/user/configuration")
       +anchorIconButton("fa-solid fa-right-from-bracket", "/logout", "Cerrar Sesión")
+
     block content

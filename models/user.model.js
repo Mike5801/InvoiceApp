@@ -13,6 +13,15 @@ const UserSchema = new mongoose.Schema(
       min: 8,
       max: 40,
     },
+    otpAuthUrl: {
+      type: String,
+    },
+    otpBase32: {
+      type: String
+    },
+    otpActivated: {
+      type: Boolean
+    }
   },
   { timestamps: true }
 );

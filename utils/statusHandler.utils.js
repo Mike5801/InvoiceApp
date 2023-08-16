@@ -7,3 +7,8 @@ export const incorrectCredentials = {
   status: "ERROR",
   message: "Credenciales incorrectas"
 }
+
+export const incorrectToken = {
+  status: "ERROR",
+  message: "Clave incorrecta"
+}

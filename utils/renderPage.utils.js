@@ -13,3 +13,8 @@ export const renderHebPage = (res, variables) => {
 export const renderSignInPage = (res, variables) => {
   res.render("pages/SignIn/index", variables);
 }
+
+export const renderVerifyTokenPage = (res, variables) => {
+  res.render("pages/VerifyToken/index", variables);
+
+}

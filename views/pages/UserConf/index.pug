@@ -1,0 +1,22 @@
+extends ../../layoutLoggedIn.pug
+block content
+  include ../../components/mixins/anchorButton.pug
+
+  div(class="h-screen w-screen p-8 overflow-hidden flex justify-center flex-col items-center gap-8")
+    div(class="grid grid-cols-2  gap-y-1 w-[40rem] md:h-[24rem] h-[34rem] bg-white rounded-3xl shadow-md")
+      div(class="col-span-2 flex flex-col justify-center items-center")
+        p(class="font-bold text-xl text-center") Autenticación por 2 pasos
+        p(class="font-bold text-xl text-center") Google Authenticator
+      div(class="flex flex-col items-center md:col-auto col-span-2 gap-3 md:border-r-2 border-t-2 pt-4")
+        p(class="font-medium text-md text-center") Escanea el código QR
+        div(class="w-48 h-48" id="qrCode")
+      div(class="flex flex-col items-center md:col-auto col-span-2 gap-3 border-t-2 pt-4")
+        p(class="font-medium text-md text-center") O Ingresa el siguiente código
+        p(class="font-light text-sm text-center")= base32Secret
+
+    div(class="w-56")
+      +anchorButton("Regresar", "/invoice", "hover:bg-sky-600 bg-sky-500 rounded-md")
+
+  script(src="/scripts/qrCode.min.js") 
+  script.
+    new QRCode(document.getElementById("qrCode"), '!{otpAuthUrl}');
