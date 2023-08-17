@@ -1,6 +1,9 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
-import { renderSignInPage, renderVerifyTokenPage } from "../utils/renderPage.utils.js";
+import {
+  renderSignInPage,
+  renderVerifyTokenPage,
+} from "../utils/renderPage.utils.js";
 import {
   incorrectCredentials,
   incorrectToken,
@@ -55,7 +58,6 @@ export const signInUser = async (req, res) => {
     req.session.auth = true;
 
     res.redirect("/invoice");
-
   } catch (error) {
     console.log(error.message);
     renderSignInPage(res, incorrectCredentials);
@@ -115,7 +117,7 @@ export const generateOTP = async (req, res) => {
   }
 };
 
-export const getOTPSecret = async(req, res) => {
+export const getOTPSecret = async (req, res) => {
   try {
     const username = req.session.username;
 
@@ -133,12 +135,10 @@ export const getOTPSecret = async(req, res) => {
       otpAuthUrl,
       base32Secret,
     });
-
-  } catch(error) {
+  } catch (error) {
     console.log(error.message);
-
   }
-}
+};
 
 export const verifyToken = async (req, res) => {
   try {
@@ -175,7 +175,35 @@ export const verifyToken = async (req, res) => {
     req.session.tokenVerified = true;
 
     res.redirect("/invoice");
+  } catch (error) {
+    console.log(error.message);
+    return res.redirect("/");
+  }
+};
 
+export const disableToken = async (req, res) => {
+  try {
+    const username = req.session.username;
+
+    const user = await User.findOne({ user: username });
+
+    if (!user) {
+      return res.redirect("/");
+    }
+
+    const isOTPActivated = user.otpActivated;
+
+    if (!isOTPActivated) {
+      return res.redirect("/invoice");;
+    }
+
+    await User.findOneAndUpdate(
+      { user: username },
+      { otpActivated: false, otpAuthUrl: "", otpBase32: "" },
+      { new: true }
+    );
+
+    res.redirect("/invoice");
   } catch (error) {
     console.log(error.message);
     return res.redirect("/");
