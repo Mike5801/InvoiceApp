@@ -6,7 +6,9 @@ import {
   generateOTP,
   getOTPSecret,
   getVerifyTokenPage,
-  verifyToken
+  verifyToken,
+  getUserConfigurationPage,
+  activateToken
 } from "../controllers/user.controllers.js";
 import { isAuth, isAuthRequireToken } from "../middlewares/auth.middleware.js";
 
@@ -20,7 +22,11 @@ router.get("/verifyToken", isAuthRequireToken, getVerifyTokenPage);
 
 router.post("/verifyToken", isAuthRequireToken, verifyToken);
 
-router.get("/user/configuration", isAuth, getOTPSecret);
+router.get("/generateOTP", isAuth, generateOTP);
+
+router.post("/activateOTP", isAuth, activateToken);
+
+router.get("/user/configuration", isAuth, getUserConfigurationPage);
 
 router.get("/logout", isAuth, logoutUser);
 

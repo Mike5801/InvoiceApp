@@ -1,22 +1,44 @@
 extends ../../layoutLoggedIn.pug
 block content
   include ../../components/mixins/anchorButton.pug
+  include ../../components/mixins/formInput.pug
+  include ../../components/mixins/formButton.pug
+  include ../../components/mixins/customButton.pug
 
-  div(class="h-screen w-screen p-8 overflow-hidden flex justify-center flex-col items-center gap-8")
-    div(class="grid grid-cols-2  gap-y-1 w-[40rem] md:h-[24rem] h-[34rem] bg-white rounded-3xl shadow-md")
-      div(class="col-span-2 flex flex-col justify-center items-center")
-        p(class="font-bold text-xl text-center") Autenticación por 2 pasos
-        p(class="font-bold text-xl text-center") Google Authenticator
-      div(class="flex flex-col items-center md:col-auto col-span-2 gap-3 md:border-r-2 border-t-2 pt-4")
-        p(class="font-medium text-md text-center") Escanea el código QR
-        div(class="w-48 h-48" id="qrCode")
-      div(class="flex flex-col items-center md:col-auto col-span-2 gap-3 border-t-2 pt-4")
-        p(class="font-medium text-md text-center") O Ingresa el siguiente código
-        p(class="font-light text-sm text-center")= base32Secret
 
+  div(class="h-screen w-screen p-8 overflow-hidden flex flex-col items-center")
+    div(class="flex flex-col w-full bg-white rounded-xl shadow-md px-5 py-4 z-10")
+      div(class="flex items-center justify-between")
+        div(class="flex items-center justify-center gap-3")
+          i(class="fa-solid fa-lock text-gray-500")
+          p(class="font-medium") Autenticación por 2 pasos (Google Authenticator)
+        button(class="flex items-center justify-center w-7 h-7 hover:bg-gray-200 active:bg-gray-300  rounded-full transition-all" id="twoFADropdown")
+          i(class="fa-solid fa-angle-left text-gray-500" id="twoFADropdownIcon")
+    div(class="flex flex-col justify-center items-center w-full h-0 bg-gray-50 rounded-b-xl shadow-md -translate-y-10 transition-all duration-200 p-5" id="twoFADropdownCard")
+      if hasVerificationActivated
+        p(class="") Hola
+      else
+        +customButton("twoFAButtonActivate", "generateOTP('"+ baseUrl +"')", "Activar")
+        include ../../components/generic/spinner.pug
+        div(class="grid-cols-3 gap-y-1 w-full h-full hidden" id="twoFAContent")
+          div(class="flex flex-col items-center md:col-auto col-span-3 gap-3 md:border-r-2 pt-4")
+            p(class="font-medium text-lg text-center") Escanea el código QR
+            div(class="w-48 h-48" id="qrCode")
+          div(class="flex flex-col items-center md:col-auto col-span-3 gap-3 border-t-2 md:border-r-2 md:border-t-0 pt-4 md:mt-0 mt-4")
+            p(class="font-medium text-lg text-center") O Ingresa el siguiente código
+            p(class="font-light text-sm text-center" id="base32Secret")
+          div(class="flex flex-col items-center md:col-auto col-span-3 gap-3 border-t-2 md:border-t-0 pt-4 md:mt-0 mt-4")
+            p(class="font-medium text-lg text-center") Verifica el token
+            div(class="relative flex flex-col justify-center items-center h-full w-full gap-3 px-5" id="activateTwoFAForm")
+              p(class="absolute top-0 text-lg font-medium text-red-500" id="activateTwoFAStatus")
+              +formInput("Clave de 6 dígitos", "token", "sanitizeTicket", "6", "6", "text")
+              div(class="self-end")
+                +customButton("activateTwoFAButton", "activateOTP('"+ baseUrl +"')", "Activar")           
     div(class="w-56")
       +anchorButton("Regresar", "/invoice", "hover:bg-sky-600 bg-sky-500 rounded-md")
+  script(src="/scripts/qrCode.min.js")
+  script(src="/scripts/twoFAHandling.js" )
 
-  script(src="/scripts/qrCode.min.js") 
-  script.
-    new QRCode(document.getElementById("qrCode"), '!{otpAuthUrl}');
+
+
+    

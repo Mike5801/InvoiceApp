@@ -8,7 +8,7 @@ block initial_content
       if status
         div(class="absolute flex justify-center items-center w-full")
           h1(class="text-lg font-medium text-red-500")= message
-      form(class="flex flex-col justify-center items-center h-full w-full gap-3 " action="/" method="POST")
+      form(class="flex flex-col justify-center items-center h-full w-full gap-3" action="/" method="POST")
         +formInput("Usuario", "username", null)
         +formInput("Contraseña", "password", null, null, null, "password")
         div(class="mt-5 w-full")
