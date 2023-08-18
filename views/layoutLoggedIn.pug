@@ -2,10 +2,42 @@ extends layout.pug
 
 block initial_content
   include components/mixins/anchorIconButton.pug
-  //- Navbar
-  div(class="h-screen w-screen flex flex-col items-center")
-    div(class="w-full h-14 bg-sky-500 flex justify-between items-center px-3 shadow-md sticky top-0")
-      +anchorIconButton("fa-solid fa-gear", "/user/configuration")
-      +anchorIconButton("fa-solid fa-right-from-bracket", "/logout", "Cerrar Sesión")
+  include components/mixins/sidebarAnchor.pug
 
+  //- Navbar
+  div(class="h-screen w-screen flex flex-col items-center overflow-hidden")
+    div(class="w-full h-14 bg-sky-500 px-3 shadow-md sticky top-0 ")
+      div(class="w-full h-full md:flex justify-between items-center hidden")
+        div(class="flex justify-center items-center gap-3 h-full")
+          +anchorIconButton("fa-solid fa-house", "/invoice", "Inicio")
+          +anchorIconButton("fa-solid fa-gear", "/user/configuration", "Configuración")
+        +anchorIconButton("fa-solid fa-right-from-bracket", "/logout", "Cerrar Sesión")
+      div(class="md:hidden flex justify-end items-center h-full")
+        button(class="flex justify-center items-center w-9 h-9 rounded-full hover:bg-sky-600" id="menuButton")
+          i(class="fa-solid fa-bars text-white text-lg")
+    div(class="h-full w-56 fixed self-end bg-gray-100 shadow-md rounded-tl-md rounded-bl-md translate-x-96 transition-all duration-300 hidden" id="sidebar")
+      div(class="flex flex-col items-center h-full w-full p-3 gap-4")
+        button(class="flex justify-center items-center w-9 h-9 rounded-full hover:bg-gray-200 active:bg-gray-300 self-start" id="closeSideBarButton")
+          i(class="fa-solid fa-arrow-right text-sky-500 text-lg")
+        +sidebarAnchor("/invoice", "fa-solid fa-house", "Inicio", "sidebarHome")
+        +sidebarAnchor("/user/configuration", "fa-solid fa-gear", "Configuración", "sidebarConfiguration")
+        +sidebarAnchor("/logout", "fa-solid fa-right-from-bracket", "Cerrar Sesión", null)
     block content
+  
+  script(src="/scripts/sidebar.js")
+  script.
+    const sidebarHome = document.getElementById("sidebarHome");
+    const sidebarConfiguration = document.getElementById("sidebarConfiguration");
+
+    const currentLink = window.location.pathname;
+
+    const activeClass = "flex items-center gap-2 w-full h-10 rounded-lg transition-all pl-3 bg-sky-200"
+    const inactiveClass = "flex items-center gap-2 w-full h-10 rounded-lg hover:bg-gray-200 active:bg-gray-300 cursor-pointer transition-all pl-3";
+
+    if (currentLink === sidebarHome.getAttribute("href")) {
+      sidebarHome.className = activeClass;
+    } else if (currentLink === sidebarConfiguration.getAttribute("href")) {
+      sidebarConfiguration.className = activeClass;
+    }
+
+

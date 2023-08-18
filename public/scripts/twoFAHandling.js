@@ -18,7 +18,7 @@ const inactiveAngle = "fa-solid fa-angle-left text-gray-500";
 const twoFADropdownCard = document.getElementById("twoFADropdownCard");
 
 const showContentClass =
-  "flex flex-col justify-center items-center w-full h-auto bg-gray-50 rounded-b-xl shadow-md -translate-y-2 transition-all duration-200 p-5";
+  "flex flex-col justify-center items-center w-full h-auto bg-gray-50 rounded-b-xl shadow-md translate-y-2 transition-all duration-200 p-5";
 const hideContentClass =
   "flex flex-col justify-center items-center w-full h-0 bg-gray-50 rounded-b-xl shadow-md -translate-y-10 transition-all duration-200 p-5";
 

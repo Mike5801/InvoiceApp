@@ -153,30 +153,6 @@ export const getUserConfigurationPage = async (req, res) => {
   }
 }
 
-
-export const getOTPSecret = async (req, res) => {
-  try {
-    const username = req.session.username;
-
-    const user = await User.findOne({ user: username });
-
-    if (!user) {
-      return res.redirect("/");
-    }
-
-    const otpAuthUrl = user.otpAuthUrl;
-
-    const base32Secret = user.otpBase32;
-
-    res.render("pages/UserConf/index", {
-      otpAuthUrl,
-      base32Secret,
-    });
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
 export const verifyToken = async (req, res) => {
   try {
     const username = req.session.username;
