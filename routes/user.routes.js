@@ -36,8 +36,4 @@ router.get("/user/configuration", isAuth, getUserConfigurationPage);
 
 router.get("/logout", isAuth, logoutUser);
 
-router.use("/", (req, res) => {
-  res.redirect("/");
-})
-
 export default router;

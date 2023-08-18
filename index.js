@@ -43,6 +43,9 @@ import { isAuth } from "./middlewares/auth.middleware.js";
 
 app.use("/invoice", isAuth, invoiceRoutes);
 app.use("/", userRoutes);
+app.use("*", (req, res) => {
+  res.redirect("/");
+})
 
 import mongoose from "mongoose";
 
