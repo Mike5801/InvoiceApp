@@ -28,8 +28,6 @@ const totpOptions = {
 };
 
 export const getSignInPage = async (req, res) => {
-  console.log("passed Sign In");
-
   const username = req.session.username;
 
   const user = await User.findOne({ user: username });
