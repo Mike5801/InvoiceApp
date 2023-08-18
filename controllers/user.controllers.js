@@ -28,6 +28,8 @@ const totpOptions = {
 };
 
 export const getSignInPage = async (req, res) => {
+  console.log("passed Sign In");
+
   const username = req.session.username;
 
   const user = await User.findOne({ user: username });
@@ -125,7 +127,7 @@ export const generateOTP = async (req, res) => {
       { new: true }
     );
 
-    res.status(203).json({ otpAuthUrl, base32Secret })
+    res.status(203).json({ otpAuthUrl, base32Secret });
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
@@ -136,22 +138,21 @@ export const getUserConfigurationPage = async (req, res) => {
     const username = req.session.username;
 
     const user = await User.findOne({ user: username });
-  
+
     if (!user) {
       return res.redirect("/");
     }
-  
+
     const hasVerificationActivated = user.otpActivated;
-  
+
     res.render("pages/UserConf/index", {
       hasVerificationActivated,
-      baseUrl: process.env.BASE_URL
+      baseUrl: process.env.BASE_URL,
     });
-
   } catch (error) {
     return res.redirect("/");
   }
-}
+};
 
 export const verifyToken = async (req, res) => {
   try {
@@ -180,7 +181,8 @@ export const verifyToken = async (req, res) => {
     res.redirect("/invoice");
   } catch (error) {
     console.log(error.message);
-    return res.redirect("/");
+    renderVerifyTokenPage(res, incorrectToken);
+    return;
   }
 };
 
@@ -194,7 +196,7 @@ export const activateToken = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    
+
     totpOptions.secret = user.otpBase32;
 
     const totp = new OTPAuth.TOTP(totpOptions);
@@ -217,7 +219,7 @@ export const activateToken = async (req, res) => {
 
     req.session.tokenVerified = true;
 
-    res.status(200).json({ message: "Token activated" })
+    res.status(200).json({ message: "Token activated" });
   } catch (error) {
     console.log("Entered error");
     return res.status(404).json({ message: error.message });

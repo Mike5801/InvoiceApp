@@ -2,7 +2,7 @@ import User from "../models/user.model.js";
 
 export const isAuthRequireToken = (req, res, next) => {
   const isAuthenticated = req.session.auth;
-
+  
   if (!isAuthenticated) {
     return res.redirect("/");
   }
