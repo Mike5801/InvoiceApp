@@ -8,7 +8,8 @@ import {
   getVerifyTokenPage,
   verifyToken,
   getUserConfigurationPage,
-  activateToken
+  activateToken,
+  disableToken
 } from "../controllers/user.controllers.js";
 import { isAuth, isAuthRequireToken } from "../middlewares/auth.middleware.js";
 
@@ -25,6 +26,8 @@ router.post("/verifyToken", isAuthRequireToken, verifyToken);
 router.get("/generateOTP", isAuth, generateOTP);
 
 router.post("/activateOTP", isAuth, activateToken);
+
+router.get("/disableOTP", isAuth, disableToken);
 
 router.get("/user/configuration", isAuth, getUserConfigurationPage);
 

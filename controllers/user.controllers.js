@@ -199,8 +199,6 @@ export const verifyToken = async (req, res) => {
       return;
     }
 
-    const userTokenActivated = user.otpActivated;
-
     req.session.tokenVerified = true;
 
     res.redirect("/invoice");
@@ -260,19 +258,15 @@ export const disableToken = async (req, res) => {
       return res.redirect("/");
     }
 
-    const isOTPActivated = user.otpActivated;
-
-    if (!isOTPActivated) {
-      return res.redirect("/invoice");;
-    }
-
     await User.findOneAndUpdate(
       { user: username },
       { otpActivated: false, otpAuthUrl: "", otpBase32: "" },
       { new: true }
     );
 
-    res.redirect("/invoice");
+    req.session.tokenVerified = false;
+
+    res.redirect("/user/configuration");
   } catch (error) {
     console.log(error.message);
     return res.redirect("/");

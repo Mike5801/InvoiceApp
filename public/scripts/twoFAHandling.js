@@ -102,9 +102,13 @@ async function activateOTP(baseUrl) {
     `
       <img class="object-contain w-36 h-36" src="/images/checkMark.png" alt="status">
       <p class="text-lg font-medium text-green-500"> Autenticación por 2 pasos activada! </p>
-    `
+    `;
 
     activateTwoFAForm.innerHTML = content;
+
+    await waitTime(1000);
+
+    window.location.href = "/user/configuration";
 
   } catch (error) {
     status.innerHTML = "Clave incorrecto";
