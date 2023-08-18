@@ -1,4 +1,4 @@
-extends ../../layout.pug
+extends ../../layoutLoggedIn.pug
 block content
   include ../../components/mixins/imgLogo.pug
   include ../../components/mixins/formInput.pug
@@ -30,8 +30,8 @@ block content
             +helpImgIcon("/images/SamsInvoice.jpg")
         div(class="w-full grid grid-cols-2 justify-between items-center gap-6 mt-3" id="formButtons")
           div(class="col-span-2 md:col-auto")
-            +anchorButton("Regresar")
+            +anchorButton("Regresar", "/invoice")
           div(class="col-span-2 md:col-auto")
-            +formButton("Facturar", "/")
+            +formButton("Facturar")
         include ../../components/generic/spinner.pug
   script(src="/scripts/spinner.js") 

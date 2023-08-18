@@ -1,5 +1,7 @@
 import express from "express";
 import {
+  getMainPage,
+  getSuccessPage,
   getCostcoInvoice,
   getWalmartInvoice,
   getHebInvoice,
@@ -9,6 +11,10 @@ import {
 } from "../controllers/invoice.controllers.js";
 
 const router = express.Router();
+
+router.get("/", getMainPage);
+
+router.get("/success", getSuccessPage);
 
 router.get("/costco", getCostcoInvoicePage);
 router.post("/costco", getCostcoInvoice);
