@@ -23,6 +23,12 @@ closeSideBarButton.addEventListener("click", () => {
   sidebar.className = hideSideBarClass;
 });
 
+document.addEventListener("click", (event) => {
+  if (!sidebar.contains(event.target) && !event.target.isEqualNode(menuButton) && !menuButton.contains(event.target)) {
+    sidebar.className = hideSideBarClass;
+  }
+});
+
 if (currentLink === sidebarHome.getAttribute("href")) {
   sidebarHome.className = activeClass;
 } else if (currentLink === sidebarConfiguration.getAttribute("href")) {
