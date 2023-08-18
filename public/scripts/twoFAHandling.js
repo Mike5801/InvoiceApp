@@ -98,7 +98,7 @@ async function activateOTP(baseUrl) {
 
     const content = 
     `
-      <img class="object-contain w-36 h-36" src="/images/checkMark.png" alt="status">
+      <img class="object-contain w-32 h-32" src="/images/checkMark.png" alt="status">
       <p class="text-lg font-medium text-green-500"> Autenticación por 2 pasos activada! </p>
     `;
 

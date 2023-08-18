@@ -34,7 +34,6 @@ block content
             p(class="font-light text-sm text-center" id="base32Secret")
           div(class="flex flex-col items-center md:col-auto col-span-3 gap-3 border-t-2 md:border-t-0 pt-4 md:mt-0 mt-4")
             p(class="font-medium text-lg text-center") Verifica el token
-            div(class="w-36 h-36 hidden")
             div(class="relative flex flex-col justify-center items-center h-full w-full gap-3 px-5" id="activateTwoFAForm")
               p(class="absolute top-0 text-lg font-medium text-red-500" id="activateTwoFAStatus")
               +formInput("Clave de 6 dígitos", "token", "sanitizeTicket", "6", "6", "text")
