@@ -22,8 +22,6 @@ const showContentClass =
 const hideContentClass =
   "flex flex-col justify-center items-center w-full h-0 bg-gray-50 rounded-b-xl shadow-md -translate-y-10 transition-all duration-200 p-5";
 
-twoFADropdownCard.className = hideContentClass;
-
 twoFADropdown.addEventListener("click", async () => {
   isTwoFAActive = !isTwoFAActive;
 
