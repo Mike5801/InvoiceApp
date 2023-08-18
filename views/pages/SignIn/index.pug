@@ -1,0 +1,15 @@
+extends ../../layout.pug
+block initial_content
+  include ../../components/mixins/formInput.pug
+  include ../../components/mixins/formButton.pug
+
+  div(class="flex justify-center items-center h-screen flex-col")
+    div(class="relative flex justify-center rounded-md shadow-md bg-white w-80 h-96 p-6 py-10 ")
+      if status
+        div(class="absolute flex justify-center items-center w-full")
+          h1(class="text-lg font-medium text-red-500")= message
+      form(class="flex flex-col justify-center items-center h-full w-full gap-3" action="/" method="POST")
+        +formInput("Usuario", "username", null)
+        +formInput("Contraseña", "password", null, null, null, "password")
+        div(class="mt-5 w-full")
+          +formButton("Iniciar Sesión")

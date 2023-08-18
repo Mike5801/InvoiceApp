@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
-import dotenv from "dotenv"
-import { successStatus, errorStatus } from "../utils/statusHandler.utils.js";
+import dotenv from "dotenv";
+import { errorStatus } from "../utils/statusHandler.utils.js";
 import costcoNavigation from "../utils/costcoNavigation.utils.js";
 import walmartNavigation from "../utils/walmartNavigation.utils.js";
 import hebNavitation from "../utils/hebNavigation.utils.js";
@@ -21,6 +21,14 @@ const RFC = process.env.RFC;
 const CP = process.env.CP;
 const EMAIL = process.env.EMAIL;
 
+export const getMainPage = (req, res) => {
+  res.render("pages/Main/index");
+};
+
+export const getSuccessPage = (req, res) => {
+  res.render("pages/StatusSuccess/index");
+}
+
 export const getCostcoInvoicePage = (req, res) => {
   viewVariables.status = null;
   viewVariables.message = "";
@@ -34,9 +42,8 @@ export const getCostcoInvoice = async (req, res) => {
   try {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
-    await page.setViewport( { 'width' : 1024, 'height' : 1600 } );
+    await page.setViewport({ width: 1024, height: 1600 });
     page.setDefaultNavigationTimeout(0);
-
 
     await costcoNavigation.goToPage(
       page,
@@ -55,13 +62,7 @@ export const getCostcoInvoice = async (req, res) => {
 
     await browser.close();
 
-    viewVariables.status = successStatus.status;
-    viewVariables.message = successStatus.message;
-
-    renderCostcoPage(res, viewVariables);
-
-    /* If treated as a REST API */
-    // res.status(200).json({ message: "Successfully created and sent invoice" });
+    res.redirect("/invoice/success");
   } catch (error) {
     viewVariables.status = errorStatus.status;
     viewVariables.message = errorStatus.message;
@@ -69,11 +70,10 @@ export const getCostcoInvoice = async (req, res) => {
     console.error(error);
 
     renderCostcoPage(res, viewVariables);
-
-    /* If treated as a REST API */
-    // res.status(400).json({ message: error.message });
   }
 };
+
+
 
 export const getWalmartInvoicePage = (req, res) => {
   const { company } = req.query;
@@ -98,7 +98,7 @@ export const getWalmartInvoice = async (req, res) => {
       "https://facturacion.walmartmexico.com.mx/Default.aspx",
       "https://facturacion.walmartmexico.com.mx/frmDatos.aspx"
     );
-  
+
     await walmartNavigation.enterTicketInformation(
       browser,
       page,
@@ -114,13 +114,7 @@ export const getWalmartInvoice = async (req, res) => {
 
     await browser.close();
 
-    viewVariables.status = successStatus.status;
-    viewVariables.message = successStatus.message;
-
-    renderWalmartPage(res, viewVariables);
-
-    /* If treated as a REST API */
-    // res.status(200).json({ message: "Successfully created and sent invoice" });
+    res.redirect("/invoice/success");
   } catch (error) {
     viewVariables.status = errorStatus.status;
     viewVariables.message = errorStatus.message;
@@ -128,9 +122,6 @@ export const getWalmartInvoice = async (req, res) => {
     console.error(error);
 
     renderWalmartPage(res, viewVariables);
-
-    /* If treated as a REST API */
-    // res.status(400).json({ message: error.message });
   }
 };
 
@@ -158,7 +149,6 @@ export const getHebInvoice = async (req, res) => {
     const page = await browser.newPage();
     page.setDefaultNavigationTimeout(0);
 
-
     await hebNavitation.goToPage(
       page,
       "https://facturacion.heb.com.mx/cli/invoice-create"
@@ -179,13 +169,7 @@ export const getHebInvoice = async (req, res) => {
 
     await browser.close();
 
-    viewVariables.status = successStatus.status;
-    viewVariables.message = successStatus.message;
-
-    renderHebPage(res, viewVariables);
-
-    /* If treated as a REST API */
-    // res.status(200).json({ message: "Successfully created and sent invoice" });
+    res.redirect("/invoice/success");
   } catch (error) {
     viewVariables.message = errorStatus.message;
     viewVariables.status = errorStatus.status;
@@ -193,8 +177,5 @@ export const getHebInvoice = async (req, res) => {
     console.error(error);
 
     renderHebPage(res, viewVariables);
-
-    /* If treated as a REST API */
-    // res.status(400).json({ message: error.message });
   }
 };

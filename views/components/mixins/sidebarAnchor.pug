@@ -1,0 +1,8 @@
+mixin sidebarAnchor(link, icon, text, id)
+  - var navLinkClass = "flex items-center gap-2 w-full h-10 rounded-lg hover:bg-gray-200 active:bg-gray-300 cursor-pointer transition-all pl-3"
+  a(class=`${navLinkClass}` href=link, id=id)
+    i(class=`${icon} text-sky-500`)
+    p(class="font-light text-sm")= text
+
+
+
