@@ -20,6 +20,10 @@ dotenv.config();
 const RFC = process.env.RFC;
 const CP = process.env.CP;
 const EMAIL = process.env.EMAIL;
+const launchOptions = {
+  headless: true,
+  args: ["--no-sandbox"],
+}
 
 export const getMainPage = (req, res) => {
   res.render("pages/Main/index");
@@ -27,7 +31,7 @@ export const getMainPage = (req, res) => {
 
 export const getSuccessPage = (req, res) => {
   res.render("pages/StatusSuccess/index");
-}
+};
 
 export const getCostcoInvoicePage = (req, res) => {
   viewVariables.status = null;
@@ -40,7 +44,7 @@ export const getCostcoInvoice = async (req, res) => {
   const { ticket, monto } = req.body;
 
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch(launchOptions);
     const page = await browser.newPage();
     await page.setViewport({ width: 1024, height: 1600 });
     page.setDefaultNavigationTimeout(0);
@@ -73,8 +77,6 @@ export const getCostcoInvoice = async (req, res) => {
   }
 };
 
-
-
 export const getWalmartInvoicePage = (req, res) => {
   const { company } = req.query;
 
@@ -89,7 +91,7 @@ export const getWalmartInvoice = async (req, res) => {
   const { transaction, ticket } = req.body;
 
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch(launchOptions);
     const page = await browser.newPage();
     page.setDefaultNavigationTimeout(0);
 
@@ -145,7 +147,7 @@ export const getHebInvoice = async (req, res) => {
   const numDays = Math.floor(diffDates / (1000 * 60 * 60 * 24));
 
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch(launchOptions);
     const page = await browser.newPage();
     page.setDefaultNavigationTimeout(0);
 
