@@ -19,5 +19,5 @@ jobs:
             cd /home/rootProject/InvoiceAppDev/InvoiceApp
             git pull
             npm install
-            pm2 start dev
+            pm2 restart dev
             echo 'Deployment to dev successfully'
