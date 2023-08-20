@@ -41,11 +41,16 @@ const hebNavitation = {
 
     const inputTotalSale = await page.$("#mat-input-3");
     await inputTotalSale.type(totalSale);
+    console.log(inputTotalSale);
 
+    console.log("Finished entering ticket information");
+
+    console.log("waiting for confirming ticket information");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
-    await page.waitForTimeout(20000);
+    await page.waitForTimeout(10000);
 
+    console.log("clicking button to go to Client information");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
