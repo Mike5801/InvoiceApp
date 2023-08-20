@@ -45,8 +45,7 @@ const hebNavitation = {
 
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
-    const buttonText = "Continuar"
-    const buttonSelector = `button span span:contains("${buttonText}")`;
+    const buttonSelector = ".mat-focus-indicator.mat-tooltip-trigger.mat-raised-button.mat-button-base.btn-primary.ng-star-inserted"
     await page.waitForSelector(buttonSelector);
     console.log("Waiting for confirmation of ticket information");
 
