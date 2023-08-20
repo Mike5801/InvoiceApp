@@ -20,6 +20,7 @@ const hebNavitation = {
     numDays,
     totalSale
   ) {
+    console.log("Entering ticket information");
     const inputBranchOffice = await page.$("#mat-input-0");
     if (!inputBranchOffice) {
       await browser.close();
@@ -41,16 +42,15 @@ const hebNavitation = {
 
     const inputTotalSale = await page.$("#mat-input-3");
     await inputTotalSale.type(totalSale);
-    console.log(inputTotalSale);
 
-    console.log("Finished entering ticket information");
-
-    console.log("waiting for confirming ticket information");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
-    await page.waitForTimeout(10000);
+    const buttonText = "Continuar"
+    const buttonSelector = `button span span:contains("${buttonText}")`;
+    await page.waitForSelector(buttonSelector);
+    console.log("Waiting for confirmation of ticket information");
 
-    console.log("clicking button to go to Client information");
+    console.log("Clicking button to go to Client information");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
