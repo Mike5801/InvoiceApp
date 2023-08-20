@@ -19,6 +19,7 @@ jobs:
             cd /home/rootProject/InvoiceAppStaging/InvoiceApp
             git pull
             npm install
+            pm2 stop dev
             pm2 restart staging
             echo 'Deployment to staging successfully'
             
