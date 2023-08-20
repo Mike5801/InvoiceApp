@@ -51,7 +51,7 @@ const hebNavitation = {
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
 
-    await page.waitForTimeout(7000);
+    await page.waitForTimeout(15000);
   },
   async enterInvoiceInformation(browser, page, rfc, email) {
     const inputRfc = await page.$("#mat-input-6");
@@ -62,7 +62,7 @@ const hebNavitation = {
 
     await inputRfc.type(rfc);
     await page.keyboard.press("Tab");
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(10000);
 
     const inputEmail = await page.$("#mat-input-7");
     await inputEmail.type(email);
@@ -72,14 +72,14 @@ const hebNavitation = {
     await page.keyboard.press("ArrowDown");
     await page.keyboard.press("Enter");
 
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(10000);
   },
   async sendInvoice(page) {
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
-    await page.waitForTimeout(7000);
+    await page.waitForTimeout(15000);
   }
 };
 
