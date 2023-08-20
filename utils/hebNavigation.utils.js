@@ -44,14 +44,14 @@ const hebNavitation = {
 
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(20000);
 
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
 
-    await page.waitForTimeout(15000);
+    await page.waitForTimeout(7000);
   },
   async enterInvoiceInformation(browser, page, rfc, email) {
     const inputRfc = await page.$("#mat-input-6");
