@@ -23,7 +23,7 @@ const EMAIL = process.env.EMAIL;
 const launchOptions = {
   headless: true,
   args: ["--no-sandbox"],
-}
+};
 
 export const getMainPage = (req, res) => {
   res.render("pages/Main/index");
@@ -135,6 +135,7 @@ export const getHebInvoicePage = (req, res) => {
 };
 
 export const getHebInvoice = async (req, res) => {
+  req.setTimeout(180000);
   const { ticket, date, totalSale } = req.body;
   const branchOffice = "(2986) HEB SLP SAN LUIS POTOSI";
 
