@@ -28,6 +28,7 @@ const hebNavitation = {
     }
 
     await inputBranchOffice.type(branchOffice);
+    await page.waitForTimeout(5000);
     await page.keyboard.press("Enter");
 
     //Debugging
