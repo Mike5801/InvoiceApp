@@ -45,7 +45,8 @@ const hebNavitation = {
 
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
-    const buttonSelector = ".mat-focus-indicator.mat-tooltip-trigger.mat-raised-button.mat-button-base.btn-primary.ng-star-inserted"
+    const buttonSelector =
+      ".mat-focus-indicator.mat-tooltip-trigger.mat-raised-button.mat-button-base.btn-primary.ng-star-inserted";
     await page.waitForSelector(buttonSelector, { timeout: 120000 });
     console.log("Waiting for confirmation of ticket information");
 
@@ -64,6 +65,7 @@ const hebNavitation = {
       handleClientInformationError();
     }
 
+    console.log("Entering client information");
     await inputRfc.type(rfc);
     await page.keyboard.press("Tab");
     await page.waitForTimeout(10000);
@@ -79,12 +81,13 @@ const hebNavitation = {
     await page.waitForTimeout(10000);
   },
   async sendInvoice(page) {
+    console.log("Sending invoice");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
     await page.waitForTimeout(15000);
-  }
+  },
 };
 
 export default hebNavitation;
