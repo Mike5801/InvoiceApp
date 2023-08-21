@@ -46,7 +46,7 @@ const hebNavitation = {
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
     const buttonSelector = ".mat-focus-indicator.mat-tooltip-trigger.mat-raised-button.mat-button-base.btn-primary.ng-star-inserted"
-    await page.waitForSelector(buttonSelector, { timeout: 25000 });
+    await page.waitForSelector(buttonSelector, { timeout: 120000 });
     console.log("Waiting for confirmation of ticket information");
 
     console.log("Clicking button to go to Client information");
