@@ -30,8 +30,16 @@ const hebNavitation = {
     await inputBranchOffice.type(branchOffice);
     await page.keyboard.press("Enter");
 
+    //Debugging
+    const iBO = await page.$eval("#mat-input-0", input => input.value);
+    console.log(iBO);
+
     const inputTicket = await page.$("#mat-input-1");
     await inputTicket.type(ticket);
+
+    //Debugging
+    const iT = await page.$eval("#mat-input-1", input => input.value);
+    console.log(iT);
 
     const inputDate = await page.$("#mat-input-2");
     await inputDate.click();
@@ -40,8 +48,16 @@ const hebNavitation = {
     }
     await page.keyboard.press("Enter");
 
+    //Debugging
+    const iD = await page.$eval("#mat-input-2", input => input.value);
+    console.log(iD);
+
     const inputTotalSale = await page.$("#mat-input-3");
     await inputTotalSale.type(totalSale);
+
+    //Debugging
+    const iTS = await page.$eval("#mat-input-3", input => input.value);
+    console.log(iTS);
 
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
