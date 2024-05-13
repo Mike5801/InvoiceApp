@@ -20,6 +20,7 @@ const hebNavitation = {
     numDays,
     totalSale
   ) {
+    console.log("Entering ticket information");
     const inputBranchOffice = await page.$("#mat-input-0");
     if (!inputBranchOffice) {
       await browser.close();
@@ -27,6 +28,7 @@ const hebNavitation = {
     }
 
     await inputBranchOffice.type(branchOffice);
+    await page.waitForTimeout(5000);
     await page.keyboard.press("Enter");
 
     const inputTicket = await page.$("#mat-input-1");
@@ -44,8 +46,12 @@ const hebNavitation = {
 
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
-    await page.waitForTimeout(5000);
+    const buttonSelector =
+      ".mat-focus-indicator.mat-tooltip-trigger.mat-raised-button.mat-button-base.btn-primary.ng-star-inserted";
+    await page.waitForSelector(buttonSelector, { timeout: 120000 });
+    console.log("Waiting for confirmation of ticket information");
 
+    console.log("Clicking button to go to Client information");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
@@ -60,9 +66,10 @@ const hebNavitation = {
       handleClientInformationError();
     }
 
+    console.log("Entering client information");
     await inputRfc.type(rfc);
     await page.keyboard.press("Tab");
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(10000);
 
     const inputEmail = await page.$("#mat-input-7");
     await inputEmail.type(email);
@@ -72,15 +79,16 @@ const hebNavitation = {
     await page.keyboard.press("ArrowDown");
     await page.keyboard.press("Enter");
 
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(10000);
   },
   async sendInvoice(page) {
+    console.log("Sending invoice");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Tab");
     await page.keyboard.press("Enter");
-    await page.waitForTimeout(7000);
-  }
+    await page.waitForTimeout(15000);
+  },
 };
 
 export default hebNavitation;
