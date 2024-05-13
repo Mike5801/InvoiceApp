@@ -21,7 +21,7 @@ block content
     div(class="flex flex-col items-center")
       form(class="flex flex-col gap-3 md:w-2/3 w-full" action="/invoice/walmart" method="POST" id="invoiceForm")
         +formInput("Número #TR: ", "transaction", "sanitizeTicket", "5", "5")
-        +formInput("Número ticket #TC: ", "ticket", "sanitizeTicket", "22", "22")
+        +formInput("Número ticket #TC: ", "ticket", "sanitizeTicket", "21", "22")
         input(type="text" hidden value=company)
         div(class="flex justify-center items-center")
           if company == "walmart"
